@@ -1,7 +1,5 @@
-// let's add some comments to htmlRenderer.js file to understand what this code is doing:
 const path = require("path");
 const fs = require("fs");
-const inquirer = require("inquirer");
 
 const templatesDir = path.resolve(__dirname, "../templates");
 
