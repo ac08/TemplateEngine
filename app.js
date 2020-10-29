@@ -9,18 +9,89 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { create } = require("domain");
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+// code written to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints)
 const teamMembers = [];
 const arrayId = [];
 
 function appMenu() {
     function  createTeam(){
         // inquirer to ask which type of employee you want to create and runs the relevant function
-    }
-    function createManager() {
+        inquirer.prompt([
+            {
+                type: "input", 
+                name: "CreateTeam",
+                message: "Would you like to begin building out your development team?",
+                valdiate: answer => {
+                    if (answer !== "") {
+                        return true;
+                    }
 
+                    return "Come back again when you are ready to build out your development team.";
+                }
+            }
+            // err answer parameters? 
+        ]).then(answer => {
+            createManager();
+        });
+    function createManager() {
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "managerName",
+                message: "what is your manager's name",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid name.";
+                }
+            },
+            {
+                type: "input",
+                name: "managerId",
+                message: "What is your employee's ID?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid ID.";
+                }
+            },
+            {
+                type: "input",
+                name: "managerEmail",
+                message: "What is your employee's email?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid email.";
+                }
+            },
+            {
+                type: "input",
+                name: "officeNumber",
+                message: "What is the designated Office Number?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid Office Number.";
+                }
+            }
+        ]).then(answers => {
+            const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.mangerOfficeNumber);
+            teamMembers.push(manager);
+            arrayId.push(answers.managerId);
+            createEngineer();
+        });
     }
 
     function createEngineer() {
@@ -34,7 +105,7 @@ function appMenu() {
                         return true;
                     }
 
-                    return "Please enter a valid name";
+                    return "Please enter a valid name.";
                 }
             },
             {
@@ -46,7 +117,7 @@ function appMenu() {
                         return true;
                     }
 
-                    return "Please enter a valid ID?";
+                    return "Please enter a valid ID.";
                 }
             },
             {
@@ -58,31 +129,31 @@ function appMenu() {
                         return true;
                     }
 
-                    return "Please enter a valid email";
+                    return "Please enter a valid email.";
                 }
             },
             {
                 type: "input",
-                name: "engineerGithub",
-                message: "What is your employee's GitHub?",
+                name: "engineerGitHub",
+                message: "What is your employee's gitHub?",
                 validate: answer => {
                     if(answer !== "") {
                         return true;
                     }
 
-                    return "Please enter a valid gitHub";
+                    return "Please enter a valid gitHub.";
                 }
             }
         ]).then(answers => {
-            const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub)
+            const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
             teamMembers.push(engineer);
             arrayId.push(answers.engineerId);
-            // run a function here that creates the entire "team" prompting you to create another employee
+            createIntern();
         });
     }
 
     function buildTeam() {
-        // Create the output directory if the output path doesn't exist
+        // create an output directory if the output path doesn't exist
         if (!fs.existsSync(OUTPUT_DIR)) {
           fs.mkdirSync(OUTPUT_DIR);
         }
