@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+// ?????
 const { create } = require("domain");
 
 // code written to use inquirer to gather information about the development team members,
@@ -16,9 +17,8 @@ const { create } = require("domain");
 const teamMembers = [];
 const arrayId = [];
 
-function appMenu() {
     function  createTeam(){
-        // inquirer to ask which type of employee you want to create and runs the relevant function
+        // inquirer to ask if the end user would like to begin building out the development team
         inquirer.prompt([
             {
                 type: "input", 
@@ -34,8 +34,10 @@ function appMenu() {
             }
             // err answer parameters? 
         ]).then(answer => {
+            // call createManager() function to begin the teamBuilder functionality for manager data object
             createManager();
         });
+    }
     function createManager() {
         inquirer.prompt([
             {
@@ -90,6 +92,7 @@ function appMenu() {
             const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.mangerOfficeNumber);
             teamMembers.push(manager);
             arrayId.push(answers.managerId);
+            // call createEngineer() function to build out engineer data object
             createEngineer();
         });
     }
@@ -148,10 +151,68 @@ function appMenu() {
             const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
             teamMembers.push(engineer);
             arrayId.push(answers.engineerId);
+            // call createIntern() function to build out intern data object
             createIntern();
         });
     }
+    function createIntern() {
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "internName",
+                message: "What is your intern's name?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
 
+                    return "Please enter a valid name.";
+                }
+            },
+            {
+                type: "input",
+                name: "internId",
+                message: "What is your intern's ID?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid ID.";
+                }
+            },
+            {
+                type: "input",
+                name: "internEmail",
+                message: "What is your intern's email?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid email.";
+                }
+            },
+            {
+                type: "input",
+                name: "university",
+                message: "What university does your intern attend?",
+                validate: answer => {
+                    if(answer !== "") {
+                        return true;
+                    }
+
+                    return "Please enter a valid university.";
+                }
+            }
+        ]).then(answers => {
+            const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.university);
+            teamMembers.push(intern);
+            arrayId.push(answers.internId);
+            // call buildTeam() function in order to create output from teamMembers Array and arrayId
+            buildTeam();
+        });
+    }
     function buildTeam() {
         // create an output directory if the output path doesn't exist
         if (!fs.existsSync(OUTPUT_DIR)) {
@@ -164,11 +225,9 @@ function appMenu() {
         fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
       }
 
-      
-}
-
-appMenu();
+// call createTeam() function to prompt command line user to build out development team and create output file(s)
+createTeam();
 
 // Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work!
