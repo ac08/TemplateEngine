@@ -168,8 +168,11 @@ We would like you to have well over 200 commits by graduation, so commit early a
 You are required to submit the following:
 
 * The URL of the GitHub repository
+https://github.com/ac08/TemplateEngine
 
-* A video demonstrating the entirety of the app's functionality 
+* A video demonstrating the entirety of the app's functionality
+https://ac08.github.io/TemplateEngine/
+
 
 - - -
 © 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
