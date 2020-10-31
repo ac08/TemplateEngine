@@ -171,8 +171,7 @@ You are required to submit the following:
 https://github.com/ac08/TemplateEngine
 
 * A video demonstrating the entirety of the app's functionality
-https://ac08.github.io/TemplateEngine/
-
+https://drive.google.com/file/d/1dypmUzZCRU66_wtcysXDxmjIdEUHKj60/view
 
 - - -
 © 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
