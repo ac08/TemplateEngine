@@ -9,34 +9,12 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const { create } = require("domain");
 
-// code written to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints)
 const teamMembers = [];
 const arrayId = [];
 
-function  createTeam(){
-    // inquirer init to ask if the end user would like to begin building out the development team
-    inquirer.prompt([
-        {
-            type: "input", 
-            name: "CreateTeam",
-            message: "Would you like to begin building out your development team?",
-            valdiate: answer => {
-                if (answer !== "") {
-                    return true;
-                }
-
-                return "Come back again when you are ready to build out your development team.";
-            }
-        }
-        // err answer parameters? 
-    ]).then(answer => {
-        // call createManager() function to begin the teamBuilder functionality for manager data object
-        createManager();
-    });
-}
+// code written to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints)
 function createManager() {
     return inquirer.prompt([
         {
@@ -87,15 +65,14 @@ function createManager() {
                 return "Please enter a valid Office Number.";
             }
         }
-    ])
-    
-    // .then(answers => {
-    //     const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.mangerOfficeNumber);
-    //     teamMembers.push(manager);
-    //     arrayId.push(answers.managerId);
-    //     call createEngineer() function to build out engineer data object
-    //     createEngineer();
-    // });
+    ]).then(answers => {
+      // create instance of Manager Class given input from coordinated inquirer prompts 
+      const manager = new Manager(answers.managerName, answers.managerId, answers.managerId, answers.officeNumber);
+      teamMembers.push(manager);
+      arrayId.push(answers.managerId);
+      // call userOptions() function to continue or exit program
+      userOption();
+  });
 }
 
 function createEngineer() {
@@ -149,6 +126,7 @@ function createEngineer() {
             }
         }
     ]).then(answers => {
+        // create instance of Engineer Class given input from coordinated inquirer prompts 
         const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
         teamMembers.push(engineer);
         arrayId.push(answers.engineerId);
@@ -207,6 +185,7 @@ function createIntern() {
             }
         }
     ]).then(answers => {
+        // create instance of Intern Class given input from coordinated inquirer prompts 
         const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.university);
         teamMembers.push(intern);
         arrayId.push(answers.internId);
@@ -214,6 +193,7 @@ function createIntern() {
         userOption();
     });
 }
+// buildTeam function called to create output file using fs module
 function buildTeam() {
     // create an output directory if the output path doesn't exist
     if (!fs.existsSync(OUTPUT_DIR)) {
@@ -226,7 +206,7 @@ function buildTeam() {
     fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
     }
 
-// CreateTeam Options - Inquirer Prompt Function
+// userOptions functionality established to determine next step of program
 function userOption() {
     return inquirer.prompt([
         {
@@ -242,15 +222,8 @@ function userOption() {
             createIntern();
         } else buildTeam();
     });
-};
+}
 
-// call createTeam() function to prompt command line user to build out development team and create output file(s)
-// createTeam();
-createManager().then(manager => {
-    teamMembers.push(manager);
-    arrayId.push(manager.managerId);
-    userOption();
-});
-// Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work!
+// init program
+createManager();
+ 
