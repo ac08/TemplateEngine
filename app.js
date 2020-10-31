@@ -20,7 +20,7 @@ function createManager() {
         {
             type: "input",
             name: "managerName",
-            message: "what is your manager's name",
+            message: "Let's begin building out your dev team! What is your manager's name?",
             validate: answer => {
                 if(answer !== "") {
                     return true;
@@ -67,7 +67,7 @@ function createManager() {
         }
     ]).then(answers => {
       // create instance of Manager Class given input from coordinated inquirer prompts 
-      const manager = new Manager(answers.managerName, answers.managerId, answers.managerId, answers.officeNumber);
+      const manager = new Manager(answers.managerName, answers.managerEmail, answers.managerId, answers.officeNumber);
       teamMembers.push(manager);
       arrayId.push(answers.managerId);
       // call userOptions() function to continue or exit program
@@ -127,7 +127,7 @@ function createEngineer() {
         }
     ]).then(answers => {
         // create instance of Engineer Class given input from coordinated inquirer prompts 
-        const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
+        const engineer = new Engineer(answers.engineerName, answers.engineerEmail, answers.engineerId, answers.engineerGitHub);
         teamMembers.push(engineer);
         arrayId.push(answers.engineerId);
         // call userOptions() function to determine next step
@@ -174,7 +174,7 @@ function createIntern() {
         },
         {
             type: "input",
-            name: "university",
+            name: "internUniversity",
             message: "What university does your intern attend?",
             validate: answer => {
                 if(answer !== "") {
@@ -186,7 +186,7 @@ function createIntern() {
         }
     ]).then(answers => {
         // create instance of Intern Class given input from coordinated inquirer prompts 
-        const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.university);
+        const intern = new Intern(answers.internName, answers.internEmail, answers.internId, answers.internUniversity);
         teamMembers.push(intern);
         arrayId.push(answers.internId);
         // call userOptions() function to determine next step
@@ -217,13 +217,16 @@ function userOption() {
         }
     ]).then(answer => {
         if (answer.userOption === "Build out Engineer") {
+            // createEngineer() called if Intern is selected in CLI prompt
             createEngineer();
         } else if (answer.userOption === "Build out Intern") {
+            // createIntern() called if Intern is selected in CLI prompt
             createIntern();
+            // buildTeam() called upon completion and program exit
         } else buildTeam();
     });
 }
 
-// init program
+// init program, all teams must have a manager, begin with this function
 createManager();
  
