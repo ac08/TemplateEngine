@@ -1,4 +1,4 @@
-# Template Engine - Employee Summary
+# geek-cli
 
 Template Engine is a Node command line application (CLI) used to dynamically build out a software engineering team. Template Engine utilizes object-oriented programming to reduce code and improve readability, reliability, and maintainability.
 
@@ -13,7 +13,7 @@ To install the CLI application, please clone the GitHub repo to a local machine.
 You are required to submit the following:
 
 * The URL of the GitHub repository
-https://github.com/ac08/TemplateEngine
+https://github.com/andrewcircelli/geek-cli
 
 ## Demo of the Application
 
